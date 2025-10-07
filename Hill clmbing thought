@@ -1,0 +1,29 @@
+# Perché l’hill climbing funziona nonostante l’apparente caoticità delle sequenze?
+#
+# A prima vista i mazzi ottimali sembrano disordinati, privi di struttura visibile.
+# Tuttavia l’hill climbing riesce a funzionare grazie ad alcune proprietà nascoste
+# dello spazio delle soluzioni.
+#
+# 1. Struttura nascosta:
+#    Le sequenze che portano a punteggi alti non sono distribuite a caso,
+#    ma tendono a raggrupparsi in regioni dello spazio delle permutazioni.
+#    Anche se sembrano caotiche, appartengono a bacini di attrazione più ampi
+#    in cui molte sequenze simili producono punteggi simili.
+#
+# 2. Mosse locali conservative:
+#    Le operazioni di swap o block-move non distruggono completamente
+#    la bontà di una sequenza, ma la perturbano leggermente.
+#    Questo permette di conservare gran parte delle prese già possibili
+#    e, talvolta, di sbloccarne di nuove.
+#
+# 3. Ridondanza:
+#    Accanto alle poche sequenze ottimali esistono moltissime soluzioni
+#    quasi ottimali (es. 138–140 su 142). Questa ridondanza crea
+#    un “cuscinetto” che facilita il movimento del climb senza cadere
+#    subito in soluzioni pessime.
+#
+# 4. Restart multipli:
+#    Anche se un singolo hill climb può fermarsi in un massimo locale,
+#    la ripetizione da migliaia di punti casuali garantisce un’esplorazione
+#    globale. Prima o poi, un climb parte vicino alla regione giusta e
+#    raggiunge il massimo teorico.

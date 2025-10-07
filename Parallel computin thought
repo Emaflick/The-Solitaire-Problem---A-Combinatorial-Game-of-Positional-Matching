@@ -1,0 +1,38 @@
+# Perché utilizzare il parallel computing nella ricerca delle sequenze
+#
+# Il problema affrontato è estremamente costoso dal punto di vista combinatorio:
+# lo spazio delle permutazioni cresce in modo esplosivo con N, rendendo
+# impraticabile una ricerca esaustiva. L’hill climbing con restart casuali
+# è una strategia efficace, ma richiede milioni di tentativi per avvicinarsi
+# al punteggio ottimale. Qui entra in gioco il parallel computing.
+#
+# 1. Suddivisione del lavoro:
+#    Il totale dei restart (MAX_STARTS) viene diviso in blocchi quasi uguali
+#    e assegnato ai diversi processi. Ogni processo esegue in autonomia la
+#    generazione di permutazioni casuali, l’hill climbing e la valutazione
+#    dei punteggi. In questo modo si sfruttano più core del processore
+#    contemporaneamente.
+#
+# 2. Diversità delle traiettorie:
+#    Ogni worker riceve un seed leggermente diverso (oppure entropia di sistema)
+#    così che esplori regioni differenti dello spazio delle soluzioni.
+#    Questo evita la ridondanza e aumenta la probabilità che almeno un processo
+#    intercetti la sequenza ottimale.
+#
+# 3. Comunicazione asincrona:
+#    I processi non lavorano in isolamento, ma inviano al master messaggi
+#    tramite una coda condivisa (Queue). Questi messaggi possono essere:
+#    - "best": un aggiornamento su un nuovo punteggio massimo trovato dal worker.
+#    - "done": il worker ha raggiunto il TARGET e può fermare la ricerca.
+#    Il master riceve questi segnali in tempo reale e tiene traccia del best globale.
+#
+# 4. Stop cooperativo:
+#    Quando un worker raggiunge il punteggio obiettivo, imposta un evento
+#    condiviso (Event) che segnala a tutti gli altri processi di fermarsi.
+#    In questo modo si evita di sprecare tempo in calcoli inutili e la
+#    computazione termina non appena è stato trovato il risultato desiderato.
+#
+# 5. Efficienza complessiva:
+#    Con il parallel computing la ricerca diventa scalabile: più core sono
+#    disponibili, più restart vengono eseguiti nello stesso tempo. Questo
+#    riduce drasticamente i tempi di calcolo senza cambiare la logica di base.
