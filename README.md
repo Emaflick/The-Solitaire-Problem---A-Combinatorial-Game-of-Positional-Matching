@@ -1,4 +1,4 @@
-# Self-Counting Solitaire 🔢🃏  
+# 24h problem: Self-Counting Solitaire 🔢🃏  
 *A combinatorial exploration of deterministic elimination dynamics*
 
 ### Author  
@@ -154,5 +154,6 @@ Full formal write-up (PDF):
 
 ---
 
-> *“A problem posed in jest became a serious object of inquiry.”*  
+> *“A problem posed in jest became a serious object of inquiry.”*
+*"Thanks to Tommaso Pippia & Filippo Zocca that helps and inspired me with this problem"*  
 > — *Emanuele Renzoni, 2025*
